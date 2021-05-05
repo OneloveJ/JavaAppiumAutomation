@@ -10,7 +10,7 @@ public class MainClassTest extends MainClass
         if (a == 14) {
             System.out.println("Число равно 14");
         } else {
-            System.out.println("Число не равно 14");
+            System.out.println("Ошибка! Число не равно 14");
         }
     }
 }
