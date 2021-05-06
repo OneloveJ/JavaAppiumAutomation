@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MainClassTest extends MainClass
@@ -12,5 +13,14 @@ public class MainClassTest extends MainClass
         } else {
             System.out.println("Ошибка! Число не равно 14");
         }
+    }
+
+    @Test
+    public void testGetClassNumber()
+    {
+        int actual = 45;
+        int number = getClassNumber();
+
+        Assert.assertTrue("the method getClassNumber return number < 45", number > actual);
     }
 }
