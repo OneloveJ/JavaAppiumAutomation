@@ -135,6 +135,35 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testInputFieldHasText()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Cannot find 'Search…' input"
+        );
+    }
+
+    private void assertElementHasText(By by, String expected_text, String error_message)
+    {
+        WebElement inputField = waitForElementPresent(
+                by,
+                "Cannot find input field on the page",
+                5
+        );
+
+        String inputFieldHint = inputField.getAttribute("text");
+
+        Assert.assertEquals(error_message, expected_text, inputFieldHint);
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
