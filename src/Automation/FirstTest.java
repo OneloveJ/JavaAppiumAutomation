@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -149,6 +150,65 @@ public class FirstTest {
                 "Search…",
                 "Cannot find 'Search…' input"
         );
+    }
+
+    @Test
+    public void testFewElementSearchPresent()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "k-pop",
+                "Cannot find 'Search…' input",
+                5
+        );
+
+        int elementAmount = getFoundElementAmount();
+
+        Assert.assertTrue(
+                "We found too few results",
+                elementAmount > 0
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search field",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Cannot find 'Search…' input",
+                5
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_empty_message"),
+                "Cannot find search_empty_message",
+                5
+        );
+    }
+
+    private int getFoundElementAmount()
+    {
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']"),
+                "Cannot find anything by the request",
+                15
+        );
+        return  getElementsCount(By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']")
+                );
+    }
+
+    private int getElementsCount(By by)
+    {
+        List elements = driver.findElements(by);
+        return elements.size();
     }
 
     private void assertElementHasText(By by, String expected_text, String error_message)
